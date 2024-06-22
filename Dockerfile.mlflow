@@ -1,31 +1,15 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.12
 
 # Set the working directory
 WORKDIR /app
 
-# Update pip to the latest version
-# RUN pip install --upgrade pip && pip install mysqlclient
-
-# install MLflow
-# RUN pip install mlflow PyMySQL
-
-# Install MLflow
-RUN pip install mlflow psycopg2-binary
+# Update pip to the latest version and install Python dependencies
+RUN pip install --upgrade pip
+RUN pip install mysqlclient mlflow
 
 # Expose the MLflow tracking server port
 EXPOSE 5050
-
-# Run the MLflow tracking server
-# CMD ["mlflow", "server", "--host", "0.0.0.0", "--port", "5050"]
-
-# Set environment variables
-# ENV MLFLOW_TRACKING_URI=http://localhost:5050
-# ENV BACKEND_STORE_URI=mysql://root:password@mysql:3306/mlflow
-
-# Set environment variables
-ENV MLFLOW_TRACKING_URI=http://localhost:5050
-ENV BACKEND_STORE_URI=postgresql://admin:secret@postgres:5432/mlflow
 
 # Command to run MLflow server
 CMD mlflow server --backend-store-uri ${BACKEND_STORE_URI} --default-artifact-root /mlflow --host 0.0.0.0 --port 5050

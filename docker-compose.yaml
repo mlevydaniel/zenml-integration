@@ -3,25 +3,14 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
+    platform: linux/amd64
     ports:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - mysql_data:/var/lib/mysql
-    networks:
-      - ml-pipeline
-
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: mlflow
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - ml-pipeline
 
@@ -29,19 +18,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.mlflow
+    platform: linux/amd64
     ports:
       - "5050:5050"
     environment:
       - MLFLOW_TRACKING_URI=http://localhost:5050
-      - BACKEND_STORE_URI=postgresql://admin:secret@postgres:5432/mlflow
+      - BACKEND_STORE_URI=mysql://root:password@mysql/mlflow
     depends_on:
       - zenml
-      - postgres
+      - mysql
     networks:
       - ml-pipeline
 
   zenml:
     image: zenmldocker/zenml-server:latest
+    platform: linux/amd64
     ports:
       - "8080:8080"
     environment:
@@ -53,7 +44,6 @@ services:
 
 volumes:
   mysql_data:
-  postgres_data:
 
 networks:
   ml-pipeline:
