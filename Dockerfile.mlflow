@@ -4,11 +4,9 @@ FROM python:3.12
 # Set the working directory
 WORKDIR /app
 
-# Update pip to the latest version
+# Update pip to the latest version and install Python dependencies
 RUN pip install --upgrade pip
-
-# Install MLflow
-RUN pip install mlflow psycopg2-binary
+RUN pip install mysqlclient mlflow
 
 # Expose the MLflow tracking server port
 EXPOSE 5050
