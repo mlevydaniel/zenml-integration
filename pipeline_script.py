@@ -22,8 +22,8 @@ def import_data():
 def train_model(data):
     with mlflow.start_run():
         # Your model training logic
-        mlflow.log_param("param2", "value2")
-        mlflow.log_metric("metric2", 0.9)
+        mlflow.log_param("param", "value")
+        mlflow.log_metric("metric", 0.9)
 
 @pipeline
 def my_pipeline(import_data, train_model):
