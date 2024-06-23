@@ -44,7 +44,6 @@ zenml integration install mlflow -y
 # Register the MLflow experiment tracker and model deployer:
 zenml experiment-tracker register mlflow_tracker_new --flavor=mlflow --tracking_uri=http://localhost:5050 --tracking_username=mlflow_user --tracking_password=mlflow_password
 zenml model-deployer register mlflow_new --flavor=mlflow
-
 zenml artifact-store register local_store --flavor=local --path=/mnt/zenml_store
 
 # Register a new ZenML stack:

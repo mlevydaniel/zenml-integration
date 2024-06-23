@@ -24,6 +24,8 @@ services:
     environment:
       - MLFLOW_TRACKING_URI=http://localhost:5050
       - BACKEND_STORE_URI=mysql://root:password@mysql/mlflow
+      - MLFLOW_USER=${MLFLOW_USER}
+      - MLFLOW_PASSWORD=${MLFLOW_PASSWORD}
     depends_on:
       - zenml
       - mysql
@@ -40,8 +42,6 @@ services:
     environment:
       - ZENML_STORE_URL=mysql://root:password@mysql/zenml
       - ZENML_ARTIFACT_STORE=/mnt/zenml_store
-      - MLFLOW_USER=${MLFLOW_USER}
-      - MLFLOW_PASSWORD=${MLFLOW_PASSWORD}
     user: "${UID}:${GID}"
     depends_on:
       - mysql
