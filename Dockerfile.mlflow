@@ -12,4 +12,4 @@ RUN pip install mysqlclient mlflow
 EXPOSE 5050
 
 # Command to run MLflow server
-CMD mlflow server --backend-store-uri ${BACKEND_STORE_URI} --default-artifact-root /mlflow --host 0.0.0.0 --port 5050
+CMD mlflow server --backend-store-uri ${BACKEND_STORE_URI} --default-artifact-root ${MLFLOW_ARTIFACT_URI} --host 0.0.0.0 --port 5050

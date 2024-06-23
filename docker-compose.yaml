@@ -22,10 +22,10 @@ services:
     ports:
       - "5050:5050"
     environment:
-      - MLFLOW_TRACKING_URI=http://localhost:5050
-      - BACKEND_STORE_URI=mysql://root:password@mysql/mlflow
+      - BACKEND_STORE_URI=mysql://root:password@mysql/mlflow    # Do not replace with ${BACKEND_STORE_URI}
       - MLFLOW_USER=${MLFLOW_USER}
       - MLFLOW_PASSWORD=${MLFLOW_PASSWORD}
+      - MLFLOW_ARTIFACT_URI=/mnt/mlflow_store
     depends_on:
       - zenml
       - mysql
@@ -40,7 +40,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - ZENML_STORE_URL=mysql://root:password@mysql/zenml
+      - ZENML_STORE_URL=mysql://root:password@mysql/zenml   # Do not replace with ${ZENML_STORE_URL}
       - ZENML_ARTIFACT_STORE=/mnt/zenml_store
     user: "${UID}:${GID}"
     depends_on:
