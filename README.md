@@ -42,11 +42,13 @@ Once the Docker containers are up and running, if this is the first time you run
 zenml integration install mlflow -y
 
 # Register the MLflow experiment tracker and model deployer:
-zenml experiment-tracker register mlflow_tracker_new --flavor=mlflow
+zenml experiment-tracker register mlflow_tracker_new --flavor=mlflow --tracking_uri=http://localhost:5050 --tracking_username=mlflow_user --tracking_password=mlflow_password
 zenml model-deployer register mlflow_new --flavor=mlflow
 
+zenml artifact-store register local_store --flavor=local --path=/mnt/zenml_store
+
 # Register a new ZenML stack:
-zenml stack register mlflow_stack_new -a default -o default -d mlflow_new -e mlflow_tracker_new --set
+zenml stack register mlflow_stack_new -a local_store -o default -d mlflow_new -e mlflow_tracker_new --set
 ```
 
 ## Reconnect and Assign Existing Stack

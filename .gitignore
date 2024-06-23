@@ -1,3 +1,6 @@
 venv/
 __pycache__/
 .env
+zenml_store/
+mlruns/
+mlflow_store/

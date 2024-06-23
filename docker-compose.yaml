@@ -29,6 +29,8 @@ services:
       - mysql
     networks:
       - ml-pipeline
+    volumes:
+      - /Users/mlevydaniel/Desktop/zenml-integration/mlflow_store:/mnt/mlflow_store
 
   zenml:
     image: zenmldocker/zenml-server:latest
@@ -37,13 +39,21 @@ services:
       - "8080:8080"
     environment:
       - ZENML_STORE_URL=mysql://root:password@mysql/zenml
+      - ZENML_ARTIFACT_STORE=/mnt/zenml_store
+      - MLFLOW_USER=${MLFLOW_USER}
+      - MLFLOW_PASSWORD=${MLFLOW_PASSWORD}
+    user: "${UID}:${GID}"
     depends_on:
       - mysql
     networks:
       - ml-pipeline
+    volumes:
+      - /Users/mlevydaniel/Desktop/zenml-integration/zenml_store:/mnt/zenml_store
 
 volumes:
   mysql_data:
+  mlflow_store:
+  zenml_store:
 
 networks:
   ml-pipeline:
