@@ -16,6 +16,16 @@ source bin/venv/activate
 pip install -r requirements.txt
 ```
 
+3. Create .env File with the following content:
+```bash
+MLFLOW_TRACKING_URI=http://<mlflow-server-url>:5050
+ZENML_SERVER_URI=http://<zenml-server-url>:8080
+UID=${UID}
+GID=${GID}
+MLFLOW_USER=<your-mlflow-username>
+MLFLOW_PASSWORD=<your-mlflow-password>
+```
+
 # Set up Docker Compose
 
 To create the MLflow and ZenML servers, we will use Docker containers connected to a MySQL database. This replicates a real-world setting. The next section will recreate the same setting in GCP.
@@ -61,3 +71,12 @@ Every time you restart the Docker Compose setup, reconnect to the existing stack
 zenml connect --url http://localhost:8080
 zenml stack set mlflow_stack_new
 ```
+
+## Usage
+
+
+## License
+
+Information about the project’s license.
+
+## Contact
