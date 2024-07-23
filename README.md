@@ -50,14 +50,24 @@ Once the Docker containers are up and running, if this is the first time you run
 ```bash
 # Install ZenML MLflow integration:
 zenml integration install mlflow -y
+zenml integration install gcp -y
 
-# Register the MLflow experiment tracker and model deployer:
-zenml experiment-tracker register mlflow_tracker_new --flavor=mlflow --tracking_uri=http://localhost:5050 --tracking_username=mlflow_user --tracking_password=mlflow_password
+# Register the MLflow experiment tracker, model deployer and artifact store:
+zenml experiment-tracker register mlflow_tracker_new --flavor=mlflow --tracking_uri=http://localhost:5050 --tracking_username=mlflow_user --tracking_password=SecurePassword
 zenml model-deployer register mlflow_new --flavor=mlflow
+
 zenml artifact-store register local_store --flavor=local --path=/mnt/zenml_store
+or
+zenml artifact-store register gs_store --flavor=gcp --path=gs://zenml-integration/zenml
 
 # Register a new ZenML stack:
-zenml stack register mlflow_stack_new -a local_store -o default -d mlflow_new -e mlflow_tracker_new --set
+zenml stack register mlflow_stack_new -a gs_store -o default -d mlflow_new -e mlflow_tracker_new --set
+```
+
+In case you need to modify the current stack:
+
+```sh
+ zenml stack update mlflow_stack_new -a gs_store
 ```
 
 ## Reconnect and Assign Existing Stack

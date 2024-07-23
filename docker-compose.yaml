@@ -23,16 +23,18 @@ services:
       - "5050:5050"
     environment:
       - BACKEND_STORE_URI=mysql://root:password@mysql/mlflow    # Do not replace with ${BACKEND_STORE_URI}
-      - MLFLOW_USER=${MLFLOW_USER}
-      - MLFLOW_PASSWORD=${MLFLOW_PASSWORD}
-      - MLFLOW_ARTIFACT_URI=/mnt/mlflow_store
+      - MLFLOW_ARTIFACT_URI=gs://zenml-integration/mlflow
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/dataanalytics-347914-95d9bc403f1e.json
+      # - MLFLOW_USER=mlflow_user
+      # - MLFLOW_PASSWORD=SecurePassword
+      - MLFLOW_AUTH_CONFIG_PATH=/mlflow/server/auth/basic_auth.ini
     depends_on:
       - zenml
       - mysql
     networks:
       - ml-pipeline
     volumes:
-      - /Users/mlevydaniel/Desktop/zenml-integration/mlflow_store:/mnt/mlflow_store
+      - /Users/mlevydaniel/Desktop/zenml-integration/credentials:/credentials
 
   zenml:
     image: zenmldocker/zenml-server:latest
@@ -41,14 +43,15 @@ services:
       - "8080:8080"
     environment:
       - ZENML_STORE_URL=mysql://root:password@mysql/zenml   # Do not replace with ${ZENML_STORE_URL}
-      - ZENML_ARTIFACT_STORE=/mnt/zenml_store
+      - ZENML_ARTIFACT_STORE=gs://zenml-integration/zenml
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/dataanalytics-347914-95d9bc403f1e.json
     user: "${UID}:${GID}"
     depends_on:
       - mysql
     networks:
       - ml-pipeline
     volumes:
-      - /Users/mlevydaniel/Desktop/zenml-integration/zenml_store:/mnt/zenml_store
+      - /Users/mlevydaniel/Desktop/zenml-integration/credentials:/credentials
 
 volumes:
   mysql_data:

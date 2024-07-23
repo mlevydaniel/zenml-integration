@@ -8,8 +8,14 @@ WORKDIR /app
 RUN pip install --upgrade pip
 RUN pip install mysqlclient mlflow
 
+# Create the necessary directory
+RUN mkdir -p /mlflow/server/auth
+
+# Copy the basic_auth.ini file to the directory
+COPY basic_auth.ini /mlflow/server/auth/basic_auth.ini
+
 # Expose the MLflow tracking server port
 EXPOSE 5050
 
 # Command to run MLflow server
-CMD mlflow server --backend-store-uri ${BACKEND_STORE_URI} --default-artifact-root ${MLFLOW_ARTIFACT_URI} --host 0.0.0.0 --port 5050
+CMD mlflow server --backend-store-uri ${BACKEND_STORE_URI} --default-artifact-root ${MLFLOW_ARTIFACT_URI} --host 0.0.0.0 --port 5050 --app-name basic-auth
